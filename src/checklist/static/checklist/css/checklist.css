@@ -1,0 +1,123 @@
+body {
+    font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    color: #333;
+}
+
+.indent {
+    margin-left: 30px;
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+
+    vertical-align: middle;
+}
+
+.checkbox_text {
+    font-size: 14px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.conditional {
+    display: inline-block;
+    margin: 3px 0;
+    color: #E00;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+:checked+.conditional {
+    color: #090;
+}
+
+.hidden {
+    display: none;
+}
+
+.section_title {
+    margin: 22px 0 10px 0;
+}
+
+h1 {
+    font-size: 25px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #075D79;
+}
+
+
+.buttons {
+    margin-top: 50px;
+}
+
+.button {
+    -webkit-appearance: menuitem;
+    font-weight: bold;
+    line-height: 1.3em;
+    padding: 0.45em 0.8em;
+    border: 1px solid #CCC;
+    margin: 5px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 4px;
+    color: #333;
+    border-color: #DFDFDF;
+    border-bottom-color: #AEAEAE;
+    text-shadow: 0 0.09em 0.03em #FFF;
+    background: #F8F8F8;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#c8c8c8');
+    background: -moz-linear-gradient(top, #F8F8F8 0%, #DFDFDF 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F8F8F8), color-stop(100%, #DFDFDF));
+    background: -webkit-linear-gradient(top, #F8F8F8 0%, #DFDFDF 100%);
+    background: -o-linear-gradient(top, #F8F8F8 0%, #DFDFDF 100%);
+    background: -ms-linear-gradient(top, #F8F8F8 0%, #DFDFDF 100%);
+    background: linear-gradient(top, #F8F8F8 0%, #DFDFDF 100%);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+}
+
+#checklist_state_area {
+    width: 400px;
+    height: 300px;
+
+    border-radius: 4px;
+    padding: 6px;
+    border: 1px solid #DDD;
+    resize: none;
+    font-size: 14px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #FFF;
+    font-family: Ubuntu, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    overflow: auto;
+}
+
+.help_icon {
+    font-size: 14px;
+    border-radius: 20px;
+    padding: 0 4px;
+    font-weight: bold;
+    margin-left: 10px;
+    border: 2px solid #B8B8B8;
+    color: black;
+}
+
+.tooltip_help {
+    cursor: default;
+}
+
+.link_help {
+    cursor: pointer;
+    text-decoration: none;
+}

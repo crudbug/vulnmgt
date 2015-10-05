@@ -1,0 +1,32 @@
+{% extends "issuesdb/includes/ink_form.html" %}
+
+{% block form_fields %}
+    {% for field in form %}
+        {% if field.name != 'project' and field.name != 'audit' %}
+            {% if field.name == "detection_date" or field.name == "report_date" or field.name == "fix_date" %}
+                <div class="large-33 medium-33 small-100">
+                    <div class="control-group column-group {% if field.errors %} validation error{% endif %}{% if field.field.required %} required{% endif %}">
+                        <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                        <div class="control">
+                            {{ field }}
+                            {% for error in field.errors %}
+                            <p class="tip">{{ error }}</p>
+                            {% endfor %}
+                            <div id="id_{{ field.html_name }}_yesterday" class="yesterday ink-button">Yesterday</div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="control-group column-group {% if field.errors %} validation error{% endif %}{% if field.field.required %} required{% endif %}">
+                    <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                    <div class="control">
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p class="tip">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

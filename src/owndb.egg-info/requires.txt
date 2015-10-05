@@ -1,0 +1,9 @@
+MySQL-python
+bleach
+duplicates
+gunicorn
+issuesdb
+owndb-burp
+owndb-charter
+owndb-importer
+owndb-intra

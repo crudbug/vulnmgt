@@ -1,0 +1,87 @@
+{% extends "issuesdb/changelist_base.html" %}
+{% load custom_filters %}
+{% load static %}
+{% load macros %}
+{% load widget_tweaks %}
+
+{# The project and audit filters are special #}
+{% block special_filters %}
+<div class="content ink-grid vspace">
+  <div class="filters ink-form main-filters ">
+              <div class="column-group gutters">
+                  <div class="large-40 medium-40 small-100">
+                      {{ filterset.form.project.label_tag }} {{ filterset.form.project|attr:"autocomplete:off" }}
+                  </div>
+                  <div class="large-40 medium-40 small-100">
+                      {{ filterset.form.audit.label_tag }} {{ filterset.form.audit|attr:"autocomplete:off" }}
+                  </div>
+                  <div class="large-20 medium-20 small-100">
+                      <div>&zwnj;</div> <!-- FIXME -->
+                      <a href="{% url 'issuesdb-reportconfig-list' %}" class="ink-button prepare-report-button"><span class="icon-file-alt"></span> View reports</a>
+                  </div>
+              </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block table_headers %}
+    <th class="action-checkbox-column"><input type="checkbox" class="actions-select-page"></th>
+    {% for field_name in fields %}
+      {% if field_name == "information" %}
+        <th class="field-header {{ field_name }} col_{{ field_name }}" data-field="{{ field_name }}"
+                data-sortable="false" 
+                {% if field_name in filterset.filters %} data-filter="#id_{{ field_name }}"{% endif %}
+            data-verbose-name="{{ model|field_verbose_name:field_name|title }}">
+        </th>
+      {% else %}
+        <th class="field-header {{ field_name }} col_{{ field_name }}"
+                data-sortable="true" 
+                data-field="{{ field_name }}"
+                {% if field_name in filterset.filters %} data-filter="#id_{{ field_name }}"{% endif %}
+                data-verbose-name="{{ model|field_verbose_name:field_name|title }}">
+            {{ model|field_verbose_name:field_name|title }}
+        </th>
+      {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block table_filters %}
+    {% for field_name in fields %}
+        <th class="filters col_{{ field_name }}">
+            {% with filterset.form|get_dictionary_value:field_name as field %}
+                {% if field and field_name != 'project' and field_name != 'audit' %}
+                    {{ field }}
+                {% endif %}
+            {% endwith %}
+        </th>
+    {% endfor %}
+{% endblock %}
+
+{% block columns %}
+    <colgroup>
+        <col width="25px" />
+        <col width="48px" />
+        <col width="150px" />
+        <col width="100px" />
+        <col width="120px" />
+        <col width="120px" />
+        <col width="200px" />
+        <col />
+        <col width="100px" />
+        <col width="28px" />
+    </colgroup>
+{% endblock %}
+
+
+{% block buttons_top %}
+    {{ block.super }}
+{% endblock %}
+
+{% block buttons_bottom %}
+    {{ block.super }}
+{% endblock %}
+
+{% block changelist_scripts %}
+    <script type="text/javascript" src="{% static 'issuesdb/js/overrides/issue/changelist.js' %}" charset="utf-8"></script>
+    {{ block.super }}
+{% endblock %}

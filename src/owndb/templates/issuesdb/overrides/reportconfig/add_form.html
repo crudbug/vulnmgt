@@ -1,0 +1,29 @@
+{% extends "issuesdb/add_form.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block special_fields %}
+<div class="box main small">
+    <div class="column-group gutters">
+        {% for field in form %}
+            {% if field.name == 'project' or field.name == 'audit' %}
+                <div class="large-50 small-100">
+                    <div class="control-group column-group {% if field.errors %} validation error{% endif %}{% if field.field.required %} required{% endif %}">
+                        <label for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+                        <div class="control">
+                        {{ field }}
+                            {% for error in field.errors %}
+                            <p class="tip">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+{% endblock %}

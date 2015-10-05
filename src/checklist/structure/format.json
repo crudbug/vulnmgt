@@ -1,0 +1,127 @@
+"Recon and Analysis"
+    "Load Burp with the given configuration"
+    "Map visible content (with burp as proxy)"
+    "Identify data entry points"
+
+"Scans (check Wappalyzer on Firefox)"
+    {"type": "conditional", "text": " ASP.NET", "id": "framework_aspnet", "default": "no"}
+    {"type": "conditional", "text": " Wordpress", "id": "framework_wordpress", "default": "no"}
+        %if "framework_wordpress"
+        "Run audit.rb with flag to test wordpress (or run wpscan)"
+        {"text": "Test access to default wordpress files and folders", "id": "wordpress_default_files"}
+        %endif
+    {"type": "conditional", "text": " PHP", "id": "language_php", "default": "no"}
+        %if "language_php"
+        "Check for phpinfo.php"
+        %endif
+    {"type": "conditional", "text": " SSL/TLS", "id": "tech_ssl", "default": "no"}
+        %if "tech_ssl"
+        "Run https://www.ssllabs.com/ssltest/"
+            "Check for weak SSL ciphers"
+        %endif
+    {"type": "conditional", "text": " Website in DEV or Staging?", "id": "dev", "default": "yes"}
+        %if "dev"
+        "Release the BURP Scanner"
+        "Release the BURP Spider"
+        "Run audit.rb"
+        %endif
+
+"Authentication and Authorization (login)"
+    {"type": "conditional", "text": "Has login?", "id": "has_login", "default": "yes"}
+    %if "has_login"
+
+    {"type": "conditional", "text": "Site uses SSO?", "id": "uses_sso", "default": "yes"}
+    %if "uses_sso"
+        "Verify if session cookies are Secure, if HTTPS is being used"
+        {"text": "Make sure the site doesn't have an alternative login method", "id": "alternate_login_method"}
+        {"type": "conditional", "text": "Site has own sessions?", "id": "has_own_session", "default": "yes"}
+        %if "has_own_session"
+            "Verify session id being used is the one given by Shibboleth"
+            "Verify that the session id is being regenerated whenever there is a change in the user's privileges"
+        %endif
+    %endif
+
+    %ifnot "uses_sso"
+        {"type": "conditional", "text": "Authetication", "id": "auth", "default": "yes"}
+        %if "auth"
+            "Test password quality rules (123456 works?)"
+            "Test for username enumeration"
+            "Test resilience to password guessing (brute force?)"
+            "Test resilience to horizontal password guessing"
+            {"type": "conditional", "text": "Changing password requires the current one?", "id": "require_old_pass", "default": "yes"}
+            %if "require_old_pass"
+                "Test password guessing on the current one field"
+            %endif
+            "Test if the recovery process discloses user existence"
+            "Test email header injection in the reset password form (eg: add a cc mail)"
+            "Test if changes can be made before activating the account"
+            "Test any \"remember me\" function"
+            "Test username uniqueness"
+            "Check for unsafe distribution of credentials (send e-mail with password)"
+            "Test for fail-open conditions (if the request for an object cannot be authenticated, the website grants access anyway.)"
+        %endif
+        {"type": "conditional", "text": "Session handling", "id": "session", "default": "yes"}
+        %if "session"
+            "Test tokens for meaning"
+            "Test tokens for predictability (Burp?)"
+            "Check for insecure transmission of tokens (URL? not HTTPOnly)"
+            "Check for disclosure of tokens in logs (access to the machine?)"
+            "Check mapping of tokens to sessions (is it possible to use older tokens? or other tokens?)"
+            "Check session termination (is it possible to make requests no logged in?)"
+            "Check for session fixation (same session everytime you loggin?)"
+            "Check for cross-site request forgery"
+            "Check cookie scope (path?)"
+        %endif
+    %endif
+
+    {"type": "conditional", "text": "Access controls", "id": "access", "default": "yes"}
+    %if "access"
+        "Understand the access control requirements (what can you do with(out) login?)"
+        "Test effectiveness of controls, using multiple accounts if possible (can you do things with other person's account?)"
+        "Test for insecure access control methods (request parameters, Referer header, etc)"
+    %endif
+    %endif
+
+"Payments"
+    {"type": "conditional", "text": "Has payments?", "id": "has_payments", "default": "no"}
+    %if "has_payments"
+        "Test that it is not possible to change the value being paid, while keeping the items the same"
+        "Test that between the checkout and the end of the actual payment, it is not possible to change what is being bought (adding items to cart)"
+    %endif
+
+"Manual Testing"
+    "Test for SQL injection"
+    "Test for XSS"
+    "Test for HTTP header injection"
+    "Test for arbitrary redirection"
+    "Test for path traversal"
+    "Check for sensitive data on requests/repsonses (eg. cookies, url, etc.)"
+    {"type": "conditional", "text": "Server Side", "id": "server", "default": "yes"}
+    %if "server"
+        "Check for default credentials"
+        "Check for default content (eg. .htaccess)"
+        "Check for outdated software"
+    %endif
+    {"type": "conditional", "text": "Sends emails?", "id": "sends_emails", "default": "no"}
+    %if "sends_emails"
+        "Test for BCC header injection (with CR and CRLF)"
+        "Test for whole mail injection"
+        "Test for command injection while sending email"
+        "Test for no abuse prevention"
+    %endif
+    {"type": "conditional", "text": "Application logic", "id": "app_logic", "default": "yes"}
+    %if "app_logic"
+        "Identify the logic attack surface"
+        "Test for reliance on client-side input validation"
+        "Test other components (Java, ActiveX, Flash)"
+        "Test multi-stage processes for logic flaws (is it possible to go over an important step?)"
+        "Test handling of incomplete input"
+        "Test trust boundaries"
+    %endif
+
+"Check in Production"
+    "Check for Clickjacking (CJ Detector on Firefox)"
+    "Check for dangerous HTTP methods (eg. TRACE)"
+    "Check for cross-origin resource sharing"
+    "Verify if cross-domain scripts are include (eg. jquery)"
+    "Verify if session cookies are HTTPOnly"

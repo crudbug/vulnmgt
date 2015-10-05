@@ -1,0 +1,132 @@
+"Recon and analysis"
+    "Map visible content"
+    "Discover hidden & default content"
+    "Test for debug parameters"
+    "Identify data entry points"
+
+"Technologies"
+    {"type": "conditional", "text": "ASP.NET", "id": "framework_aspnet", "default": "no"}
+    {"type": "conditional", "text": "Wordpress", "id": "framework_wordpress", "default": "no"}
+        %if "framework_wordpress"
+        "Run audit.rb with flag to test wordpress"
+        {"text": "Test access to default wordpress files and folders", "id": "wordpress_default_files"}
+        %endif
+    {"type": "conditional", "text": "PHP", "id": "language_php", "default": "no"}
+        %if "language_php"
+        "Check for phpinfo.php"
+        %endif
+    {"type": "conditional", "text": "SSL/TLS", "id": "tech_ssl", "default": "no"}
+        %if "tech_ssl"
+        "Run https://www.ssllabs.com/ssltest/"
+        "Check for HSTS header"
+        "Check for weak SSL ciphers"
+        %endif
+
+
+"Test handling of access"
+    {"type": "conditional", "text": "Has login?", "id": "has_login", "default": "yes"}
+
+    %if "has_login"
+    {"type": "conditional", "text": "Site uses SSO?", "id": "uses_sso", "default": "yes"}
+
+    %if "uses_sso"
+    "Test shibboleth is being well used"
+        {"type": "conditional", "text": "Site has own sessions?", "id": "has_own_session", "default": "yes"}
+        "Verify if session cookies are HTTPOnly"
+        "Verify if session cookies are Secure, if HTTPS is being used"
+        {"text": "Make sure the site doesn't have an alternative login method", "id": "alternate_login_method"}
+        %if "has_own_session"
+        "Verify session id being used is the one given by Shibboleth"
+        "Verify that the session id is being regenerated whenever there is a change in the user's privileges"
+        %endif
+    %endif
+
+    %ifnot "uses_sso"
+    "Authentication"
+        "Test password quality rules"
+        "Test for username enumeration"
+        "Test resilience to password guessing"
+        {"type": "conditional", "text": "Changing password requires the current one?", "id": "require_old_pass", "default": "yes"}
+        %if "require_old_pass"
+            "Test password guessing on the current one field"
+        %endif
+        "Test if the recovery process discloses user existence"
+        "Test email header injection in the reset password form"
+        "Test if changes can be made before activating the account"
+        "Test any \"remember me\" function"
+        "Test any impersonation function"
+        "Test username uniqueness"
+        "Check for unsafe distribution of credentials"
+        "Test for fail-open conditions"
+        "Test any multi-stage mechanisms"
+    "Session handling"
+        "Test tokens for meaning"
+        "Test tokens for predictability"
+        "Check for insecure transmission of tokens"
+        "Check for disclosure of tokens in logs"
+        "Check mapping of tokens to sessions"
+        "Check session termination"
+        "Check for session fixation"
+        "Check for cross-site request forgery"
+        "Check cookie scope"
+    %endif
+
+    "Access controls"
+        "Understand the access control requirements"
+        "Test effectiveness of controls, using multiple accounts if possible"
+        "Test for insecure access control methods (request parameters, Referer header, etc)"
+    %endif
+
+"Payments"
+    {"type": "conditional", "text": "Has payments?", "id": "has_payments", "default": "no"}
+    %if "has_payments"
+    "Test that it is not possible to change the value being paid, while keeping the items the same"
+    "Test that between the checkout and the end of the actual payment, it is not possible to change what is being bought (adding items to cart)"
+    %endif
+
+"Test handling of input"
+    "Fuzz all request parameters"
+    "Test for SQL injection"
+    "Identify all reflected data"
+        "Test for reflected XSS"
+        "Test for HTTP header injection"
+        "Test for arbitrary redirection"
+        "Test for stored attacks"
+        "Test for DOM XSS"
+    "Test other injections (OS, SMTP, etc.)"
+    "Test for path traversal"
+    "Test for file inclusion"
+    {"type": "conditional", "text": "Sends emails?", "id": "sends_emails", "default": "no"}
+    %if "sends_emails"
+        "Test for BCC header injection (with CR and CRLF)"
+        "Test for whole mail injection"
+        "Test for command injection while sending email"
+    %endif
+
+"Test application logic"
+    "Identify the logic attack surface"
+    "Test transmission of data via the client"
+    "Test for reliance on client-side input validation"
+    "Test any thick-client components (Java, ActiveX, Flash)"
+    "Test multi-stage processes for logic flaws"
+    "Test handling of incomplete input"
+    "Test trust boundaries"
+    "Test transaction logic"
+
+"Assess application hosting"
+    "Test for web server vulnerabilities"
+        "Default credentials"
+        "Default content"
+            "Check for .htaccess"
+        "Dangerous HTTP methods (TRACE)"
+
+"Miscellaneous tests"
+    "Test whether Clickjacking is possible"
+    "Test whether directory listing is enabled"
+    {"text": "Test whether there is sensitive data being sent in insecure JSON (not object)", "id": "insecure_json", "help_type": "link", "help_link": "http://stackoverflow.com/a/430189"}
+    "Check for outdated software"
+    "Check for local privacy vulnerabilities"
+        "Persistent cookies"
+        "Caching"
+        "Sensitive data in URL parameters"
+        "Forms with autocomplete enabled"

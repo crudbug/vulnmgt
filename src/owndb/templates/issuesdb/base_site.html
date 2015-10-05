@@ -1,0 +1,9 @@
+{% extends "issuesdb/base.html" %}
+{% load static %}
+
+{% block html_classes %}owndb{% endblock %}
+
+{% block extra_media %}
+{{ block.super }}
+<link href="{% static 'owndb/css/owndb.css' %}" rel="stylesheet" type="text/css" charset="utf-8">
+{% endblock %}

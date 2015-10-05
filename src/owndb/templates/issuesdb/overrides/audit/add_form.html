@@ -1,0 +1,8 @@
+{% extends "issuesdb/add_form.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block content %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'issuesdb/js/overrides/audit/add_form.js' %}" charset="utf-8"></script>
+{% endblock %}

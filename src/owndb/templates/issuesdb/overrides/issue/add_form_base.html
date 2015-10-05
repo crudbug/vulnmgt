@@ -1,0 +1,43 @@
+{% extends "issuesdb/add_form.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block special_fields %}
+<div class="box main small">
+    <div class="column-group gutters">
+        {% for field in form %}
+            {% if field.name == 'project' or field.name == 'audit' %}
+                <div class="large-50 small-100">
+                    <div class="control-group column-group {% if field.errors %} validation error{% endif %}{% if field.field.required %} required{% endif %}">
+                        <label for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+                        <div class="control">
+                        {{ field }}
+                            {% for error in field.errors %}
+                            <p class="tip">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <a id="add_audit" class="ink-button green" href="{% url 'issuesdb-audit-create' %}?next={{ request.path }}"><span class="icon-plus"></span>Add Audit</a>
+</div>
+{% endblock %}
+
+{% block special_buttons %}
+    {% if object %}
+      <input class="ink-button green" type="submit" name="_duplicate" value="Duplicate" />
+    {% endif %}
+{% endblock %}
+
+{% block form_content %}
+    <div class="box small">
+        {% include 'issuesdb/overrides/issue/ink_form.html' with form=form %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'issuesdb/js/overrides/issue/add_form.js' %}" charset="utf-8"></script>
+{% endblock %}

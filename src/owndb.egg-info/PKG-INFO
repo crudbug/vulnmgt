@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: owndb
+Version: 1.0.5
+Summary: IssuesDB is a Django app created to help audit teams with the management of their audits.
+Home-page: https://gitlab.intra.sapo.pt/security/issuesdb_owndb
+Author: Hugo Castilho
+Author-email: hugo.p.castilho@telecom.pt
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

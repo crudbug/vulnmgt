@@ -1,0 +1,9 @@
+recursive-include src/checklist/static *
+recursive-include src/checklist/structure *
+recursive-include src/checklist/templates *
+recursive-include src/checklist/test *
+
+recursive-include src/owndb/static *
+recursive-include src/owndb/templates *
+recursive-include src/owndb/static *
+

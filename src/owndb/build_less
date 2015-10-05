@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+LESS_DIR=less
+CSS_DIR=static/owndb/css
+
+lessc $LESS_DIR/owndb.less $CSS_DIR/owndb.css
+lessc -x $LESS_DIR/owndb.less $CSS_DIR/owndb-min.css
+
+
+

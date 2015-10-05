@@ -1,0 +1,6 @@
+.project_report #summary_table th.state {
+  width: 60px;
+}
+.project_report #summary_table th.detection_date {
+  width: 100px;
+}

@@ -1,0 +1,7 @@
+{% extends "issuesdb/overrides/issue/add_form_base.html" %}
+{% load static %}
+
+{% block content %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'owndb/js/overrides/issue/add_form.js' %}" charset="utf-8"></script>
+{% endblock %}

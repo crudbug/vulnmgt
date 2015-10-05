@@ -1,0 +1,4 @@
+Since SSO is being used, all login's should be made through SSO.
+Sometimes a site might have an alternative login method, for example, to use in development where Shibboleth can't be used.
+However, this introduces a second method for users to login and this method might have vulnerabilities that do not exist in SSO's login.
+This second login method should then be disabled in production.

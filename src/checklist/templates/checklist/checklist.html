@@ -1,0 +1,24 @@
+{% extends "issuesdb/base_site.html" %}
+{% load admin_urls %}
+{% load i18n admin_static %}
+
+{% block extra_style %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'checklist/css/checklist.css' %}" />
+{% endblock %}
+
+{% block extra_script %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'checklist/js/checklist.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{{ checklist|safe }}
+<div class="buttons">
+    <button id="save_button" class="button">Save state</button>
+    <button id="load_button" class="button">Load state</button>
+</div>
+<div>
+    <textarea id="checklist_state_area"></textarea>
+</div>
+{% endblock %}

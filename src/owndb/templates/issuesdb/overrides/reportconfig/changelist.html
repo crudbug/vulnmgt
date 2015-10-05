@@ -1,0 +1,53 @@
+{% extends "issuesdb/changelist.html" %}
+{% load custom_filters %}
+{% load static %}
+{% load macros %}
+{% load widget_tweaks %}
+
+{# The project and audit filters are special #}
+{% block special_filters %}
+<div class="content ink-grid vspace">
+  <div class="filters ink-form main-filters ">
+              <div class="column-group gutters">
+                  <div class="large-40 medium-40 small-100">
+                      {{ filterset.form.project.label_tag }} {{ filterset.form.project|attr:"autocomplete:off" }}
+                  </div>
+                  <div class="large-40 medium-40 small-100">
+                      {{ filterset.form.audit.label_tag }} {{ filterset.form.audit|attr:"autocomplete:off" }}
+                  </div>
+              </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block table_headers %}
+    <th class="action-checkbox-column"><input type="checkbox" class="actions-select-page"></th>
+    {% for field_name in fields %}
+        <th data-sortable="true" class="field-header {{ field_name }} col_{{ field_name }}" data-field="{{ field_name }}"
+          {% if field_name in filterset.filters and field_name != 'audit' and field_name != 'project' %} data-filter="#id_filter-{{ field_name }}"{% endif %}
+          data-verbose-name="{{ model|field_verbose_name:field_name|title }}">
+            {{ model|field_verbose_name:field_name|title }}
+        </th>
+    {% endfor %}
+    <th class="col_view_report"></th>
+    <th class="col_download_report_pdf"></th>
+{% endblock %}
+
+{% block table_filters %}
+    {% for field_name in fields %}
+        <th class="filters col_{{ field_name }}">
+            {% with filterset.form|get_dictionary_value:field_name as field %}
+                {% if field and field_name != 'audit' and field_name != 'project' %}
+                    {{ field }}
+                {% endif %}
+            {% endwith %}
+        </th>
+    {% endfor %}
+    <th class="filters col_view_report"></th>
+    <th class="filters col_download_report_pdf"></th>
+{% endblock %}
+
+{% block changelist_scripts %}
+    <script type="text/javascript" src="{% static 'issuesdb/js/overrides/reportconfig/changelist.js' %}" charset="utf-8"></script>
+{% endblock %}

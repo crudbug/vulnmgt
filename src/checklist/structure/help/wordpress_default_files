@@ -1,0 +1,11 @@
+readme.html (reveals version; delete it)
+wp-admin/install.php (delete it)
+wp-config.php (if PHP interpreter is disabled, reveals secrets; move it outside web root)
+error_log (information disclosure; delete it)
+wp-content/debug.log (information disclosure; delete it)
+wp-admin/ (should not be publicly accessible; protect it)
+wp-login.php (same as above)
+xmlrpc.php (vulnerabilities in the past: http://digwp.com/2009/06/xmlrpc-php-security/;)
+
+and also:
+plugins and themes readme.html (reveal versions; delete them)
